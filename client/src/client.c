@@ -60,7 +60,12 @@ int main(void)
 
 t_log* iniciar_logger(void)
 {
-	t_log* nuevo_logger = log_create("tp0.log", "TP0", true, LOG_LEVEL_INFO);;
+	t_log* nuevo_logger = log_create("tp0.log", "TP0", true, LOG_LEVEL_INFO);
+
+	if(nuevo_logger == NULL){
+		perror("No se pudo crear o encontrar el archivo."); // Como un printf pero para errores
+		exit(EXIT_FAILURE); // Termina el programa de forma ordenada
+	}
 
 	return nuevo_logger;
 }
@@ -70,8 +75,8 @@ t_config* iniciar_config(void)
 	t_config* nuevo_config = config_create("cliente.config");
 
 	if (nuevo_config == NULL) {
-		printf("No se pudo leer el archivo de configuración.\n");
-		abort(); // Corta la ejecución del programa
+		perror("No se pudo leer el archivo de configuración.");
+		abort(); // Corta la ejecución del programa. Parecido al exit(EXIT_FAILURE)
 	} 
 
 	return nuevo_config;
@@ -113,4 +118,7 @@ void terminar_programa(int conexion, t_log* logger, t_config* config)
 {
 	/* Y por ultimo, hay que liberar lo que utilizamos (conexion, log y config) 
 	  con las funciones de las commons y del TP mencionadas en el enunciado */
+	
+	log_destroy(logger);
+	config_destroy(config);
 }
