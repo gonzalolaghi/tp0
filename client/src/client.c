@@ -92,7 +92,7 @@ void leer_consola(t_log* logger)
 		leido = readline("> ");
 
 		if (leido != NULL && strlen(leido) > 0) {
-			log_info(logger, leido);
+			log_info(logger, ">> %s", leido);
 		}
 
 		free(leido);
